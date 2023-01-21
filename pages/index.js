@@ -4,7 +4,8 @@ import Link from 'next/link';
 
 export default function Home({ results }) {
   const router = useRouter();
-  const onClick = (id) => {
+  const onClick = (id, title) => {
+    router.push(`/movies/${title}/${id}`);
     // router.push(
     //   {
     //     pathname: `/movies/${id}`,
@@ -14,7 +15,6 @@ export default function Home({ results }) {
     //   },
     //   `/movies/${id}`
     // );
-    router.push(`/movies/${title}/${id}`);
   };
   return (
     <div className='container'>
