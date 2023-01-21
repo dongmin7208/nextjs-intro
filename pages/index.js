@@ -1,22 +1,33 @@
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import Seo from '../components/Seo';
+import Link from 'next/link';
 
 export default function Home({ results }) {
+  const router = useRouter();
+  const onClick = (id) => {
+    // router.push(
+    //   {
+    //     pathname: `/movies/${id}`,
+    //     query: {
+    //       title: 'potatos',
+    //     },
+    //   },
+    //   `/movies/${id}`
+    // );
+    router.push(`/movies/${title}/${id}`);
+  };
   return (
     <div className='container'>
       <Seo title='Home' />
       {results?.map((movie) => (
-        <Link href={`/movies/${movie.id}`} key={movie.id}>
-          <a>
-            <div className='movie'>
-              <img
-                src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-              />
-              <h4>{movie.original_title}</h4>
-            </div>
-          </a>
-        </Link>
+        <div onClick={() => onClick(movie.id)} className='movie' key={movie.id}>
+          <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} />
+          <h4>
+            <Link href={`/movies/${movie.id}`}>
+              <a> {movie.original_title}</a>
+            </Link>
+          </h4>
+        </div>
       ))}
       <style jsx>{`
         .container {
@@ -24,6 +35,9 @@ export default function Home({ results }) {
           grid-template-columns: 1fr 1fr;
           padding: 20px;
           gap: 20px;
+        }
+        .movie {
+          cursor: pointer;
         }
         .movie img {
           max-width: 100%;
@@ -42,6 +56,7 @@ export default function Home({ results }) {
     </div>
   );
 }
+
 export async function getServerSideProps() {
   const { results } = await (
     await fetch(`http://localhost:3000/api/movies`)

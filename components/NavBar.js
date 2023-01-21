@@ -1,10 +1,10 @@
 import Link from 'next/link';
+
 import { useRouter } from 'next/router';
-import style from './NavBar.module.css';
 export default function NavBar() {
   const router = useRouter();
   return (
-    <nav className={style.nav}>
+    <nav>
       <img src='/vercel.svg' />
       <div>
         <Link href='/'>
